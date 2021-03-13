@@ -34,13 +34,21 @@ class ShabbatSubscriber(MessageSubscriber):
         if not triggered:
             return
 
-        today = datetime.datetime.now(pytz.timezone(self.location.timezone))
-        friday = today + datetime.timedelta((4 - today.weekday()) % 7)
+        now = datetime.datetime.now(pytz.timezone(self.location.timezone))
+        friday = now + datetime.timedelta(4 - now.weekday())
+        saturday = now + datetime.timedelta(5 - now.weekday())
 
-        sunset = sun(self.location.observer, date=friday)['sunset']
-        shabbat = sunset - datetime.timedelta(minutes=18)
+        shabbat_start = sun(self.location.observer, date=friday)['sunset'] - datetime.timedelta(minutes=18)
+        shabbat_end = sun(self.location.observer, date=saturday)['sunset'] + datetime.timedelta(minutes=49)
 
-        reply = f'Time to Shabbat: {humanize.precisedelta(shabbat - today)}'
+        if now < shabbat_start:
+            reply = f'Time to Shabbat: {humanize.precisedelta(shabbat_start - now)} (Friday {humanize.naturaltime(shabbat_start.time().replace(microsecond=0))})'
+        elif shabbat_start < now < shabbat_end:
+            reply = f'Enjoy Shabbat. Shabbat ends in {humanize.precisedelta(shabbat_end - now)} (Saturday {humanize.naturaltime(shabbat_start.time().replace(microsecond=0))})'
+        else:
+            friday = friday + datetime.timedelta(weeks=1)
+            shabbat_start = sun(self.location.observer, date=friday)['sunset'] - datetime.timedelta(minutes=18)
+            reply = f'Time to Shabbat: {humanize.precisedelta(shabbat_start - now)} (Friday {humanize.naturaltime(shabbat_start.time().replace(microsecond=0))})'
 
         self.interface.send_message(reply)
 
@@ -84,6 +92,7 @@ class Chooser(MessageSubscriber):
 
         try:
             opts = message.content.replace("/choose ", "").split(",")
+            opts = [opt.strip() for opt in opts]
             choice = random.choice(opts)
 
             self.logger.info(f'Chosen option {choice} from {opts}')
