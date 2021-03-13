@@ -44,7 +44,7 @@ class ShabbatSubscriber(MessageSubscriber):
         if now < shabbat_start:
             reply = f'Time to Shabbat: {humanize.precisedelta(shabbat_start - now)} (Friday {humanize.naturaltime(shabbat_start.time().replace(microsecond=0))})'
         elif shabbat_start < now < shabbat_end:
-            reply = f'Enjoy Shabbat. Shabbat ends in {humanize.precisedelta(shabbat_end - now)} (Saturday {humanize.naturaltime(shabbat_start.time().replace(microsecond=0))})'
+            reply = f'Enjoy Shabbat. Shabbat ends in {humanize.precisedelta(shabbat_end - now)} (Saturday {humanize.naturaltime(shabbat_end.time().replace(microsecond=0))})'
         else:
             friday = friday + datetime.timedelta(weeks=1)
             shabbat_start = sun(self.location.observer, date=friday)['sunset'] - datetime.timedelta(minutes=18)

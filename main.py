@@ -1,6 +1,5 @@
 import time
 import logging
-
 from selenium import webdriver
 
 from message_subscribers import ShabbatSubscriber, DiceRoller, Chooser
