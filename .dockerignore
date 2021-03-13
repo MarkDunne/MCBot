@@ -1,0 +1,7 @@
+.venv
+.ipynb_checkpoints
+*.log
+*.png
+*.ipynb
+User_Data
+tests

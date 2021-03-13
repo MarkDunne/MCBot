@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "mcbot"
+version = "0.1.0"
+description = ""
+authors = ["Mark Dunne <markdunne@improbable.io>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jupyter = "^1.0.0"
+selenium = "^3.141.0"
+webwhatsapi = "^2.0.5"
+astral = "^2.2"
+fastapi = "^0.63.0"
+uvicorn = "^0.13.4"
+aiofiles = "^0.6.0"
+supervisor = "^4.2.2"
+Jinja2 = "^2.11.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
