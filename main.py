@@ -3,7 +3,7 @@ import logging
 
 from selenium import webdriver
 
-from message_subscribers import ShabbatSubscriber, DiceRoller
+from message_subscribers import ShabbatSubscriber, DiceRoller, Chooser
 from web_interface import WhatsAppWebInterface
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(levelname)-10s %(message)s')
@@ -23,7 +23,8 @@ if __name__ == '__main__':
 
     subscribers = [
         ShabbatSubscriber(web_interface, logger),
-        DiceRoller(web_interface, logger)
+        DiceRoller(web_interface, logger),
+        Chooser(web_interface, logger)
     ]
 
     logger.info('Loading interface')
