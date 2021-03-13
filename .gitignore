@@ -6,3 +6,4 @@ User_Data
 *.ipynb
 .idea
 __pycache__
+*.pid
